@@ -9,7 +9,7 @@
 			</filelist>
 		</path>
 	
-		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"      
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
 			uri="javafx:com.sun.javafx.tools.ant"
 			classpathref="fxant"/>
 	</target>
@@ -17,22 +17,17 @@
 		<delete dir="externalLibs" />
 		<delete dir="project" />
 		<delete dir="projectRefs" />
-		
+	
 		<mkdir dir="externalLibs" />
-		
-		<copy todir="externalLibs">
-			<fileset dir="Q:\Eclipse Workspaces\JavaFX Tutorials\AddressApp-Part-7\lib">
-				<filename name="controlsfx-8.0.5.jar"/>	
-			</fileset>
-		</copy>
-		
+	
+	
 		<mkdir dir="project" />
 		<copy todir="project">
 			<fileset dir="Q:\Eclipse Workspaces\JavaFX Tutorials\AddressApp-Part-7">
 				<include name="src/**" />
 			</fileset>
 		</copy>
-		
+	
 		<mkdir dir="projectRefs" />
 	</target>
 	<target name='do-compile'>
@@ -44,7 +39,6 @@
 		<!-- Copy project-libs references -->
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
-				<include name="controlsfx-8.0.5.jar"/>
 			</fileset>
 		</copy>
 	
@@ -64,7 +58,7 @@
 				</fileset>
 			</classpath>
 		</javac>
-		
+	
 		<!-- Copy over none Java-Files -->
 		<copy todir="build/classes">
 		<fileset dir="project/src">
@@ -77,38 +71,39 @@
 	<target name="do-deploy" depends="setup-staging-area, do-compile, init-fx-tasks">
 		<delete file="dist"/>
 		<delete file="deploy" />
-		
+	
 		<mkdir dir="dist" />
 		<mkdir dir="dist/libs" />
-		
+	
 		<copy todir="dist/libs">
 			<fileset dir="externalLibs">
 				<include name="*" />
 			</fileset>
 		</copy>
-		
-		
+	
+	
 		<fx:resources id="appRes">
 			<fx:fileset dir="dist" includes="AddressApp-Part-7.jar"/>
 			<fx:fileset dir="dist" includes="libs/*"/>
 			<fx:fileset dir="dist" includes="resources/**"/>
-		</fx:resources> 
-		
+		</fx:resources>
+	
 		<fx:application id="fxApplication"
 			name="AddressApp"
 			mainClass="ch.makery.address.MainApp"
+			version="1.0"
 		/>
 	
 		<mkdir dir="build/classes/META-INF" />
-		
-		
-		
+	
+	
+	
 		<fx:jar destfile="dist/AddressApp-Part-7.jar">
 			<fx:application refid="fxApplication"/>
 			<fileset dir="build/classes">
 			</fileset>
 			<fx:resources refid="appRes"/>
-			
+	
 			<manifest>
 				<attribute name="Implementation-Vendor" value="makery.ch"/>
 				<attribute name="Implementation-Title" value="AddressApp"/>
@@ -116,7 +111,7 @@
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>
-		
+	
 	
 		<mkdir dir="deploy" />
 		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
@@ -129,11 +124,13 @@
 			outfile="AddressApp-Part-7" nativeBundles="exe"
 			updatemode="background" >
 	
+			<fx:platform basedir="${java.home}"/>
 			<fx:info title="AddressApp-Part-7" vendor="makery.ch"/>
+	
 			<fx:application refId="fxApplication"/>
 			<fx:resources refid="appRes"/>
 		</fx:deploy>
-		
-		
+	
+	
 	</target>
 </project>

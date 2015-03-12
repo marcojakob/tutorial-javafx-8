@@ -3,10 +3,9 @@ package ch.makery.address.view;
 import java.io.File;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
-
-import org.controlsfx.dialog.Dialogs;
-
 import ch.makery.address.MainApp;
 
 /**
@@ -78,35 +77,36 @@ public class RootLayoutController {
      */
     @FXML
     private void handleSaveAs() {
-		FileChooser fileChooser = new FileChooser();
+        FileChooser fileChooser = new FileChooser();
 
-		// Set extension filter
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-				"XML files (*.xml)", "*.xml");
-		fileChooser.getExtensionFilters().add(extFilter);
+        // Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
 
-		// Show save file dialog
-		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+        // Show save file dialog
+        File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
 
-		if (file != null) {
-			// Make sure it has the correct extension
-			if (!file.getPath().endsWith(".xml")) {
-				file = new File(file.getPath() + ".xml");
-			}
-			mainApp.savePersonDataToFile(file);
-		}
-	}
+        if (file != null) {
+            // Make sure it has the correct extension
+            if (!file.getPath().endsWith(".xml")) {
+                file = new File(file.getPath() + ".xml");
+            }
+            mainApp.savePersonDataToFile(file);
+        }
+    }
 
     /**
      * Opens an about dialog.
      */
     @FXML
     private void handleAbout() {
-		Dialogs.create()
-	        .title("AddressApp")
-	        .masthead("About")
-	        .message("Author: Marco Jakob\nWebsite: http://code.makery.ch")
-	        .showInformation();
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.setTitle("AddressApp");
+    	alert.setHeaderText("About");
+    	alert.setContentText("Author: Marco Jakob\nWebsite: http://code.makery.ch");
+
+    	alert.showAndWait();
     }
 
     /**
